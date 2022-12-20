@@ -1,0 +1,10 @@
+.tempgraphic {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  border-radius: 10px;
+  margin: 24px;
+  width: calc(100vw - 50px);
+  overflow: scroll;
+}

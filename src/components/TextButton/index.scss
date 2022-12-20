@@ -1,0 +1,16 @@
+.textButton {
+  background-color: var(--background-1);
+  color: var(--surface-3);
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border: 0px;
+
+  &__label {
+    font-size: var(--p3);
+  }
+  &:hover {
+    border-bottom: 2px solid var(--surface-3);
+    padding-bottom: 8px;
+  }
+}
