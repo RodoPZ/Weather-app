@@ -1,17 +1,20 @@
 import React from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "./components/pages/Home";
 import { NotFound } from "./components/pages/NotFound";
+import { AppProvider } from "./context";
 
 function App() {
   return (
-    <HashRouter>
-      <Routes>
-        <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/:id" element={<Main />} /> */}
-      </Routes>
-    </HashRouter>
+    <BrowserRouter>
+      <AppProvider>
+        <Routes>
+          <Route path="/:location" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+          {/* <Route path="/:id" element={<Main />} /> */}
+        </Routes>
+      </AppProvider>
+    </BrowserRouter>
   );
 }
 

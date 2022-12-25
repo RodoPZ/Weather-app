@@ -11,6 +11,8 @@
   }
   &:hover {
     border-bottom: 2px solid var(--surface-3);
-    padding-bottom: 8px;
+  }
+  &__selected {
+    border-bottom: 2px solid var(--surface-3);
   }
 }

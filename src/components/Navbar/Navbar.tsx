@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.scss";
 import { SearchBar } from "../SearchBar/SearchBar";
-export const Navbar = () => {
+import { api } from "../../utils/fetchFromApi";
+import { Forecast } from "../../models/apiResponse.model";
+
+interface Props {
+  data: Forecast | null;
+}
+
+export const Navbar = ({ data }: Props) => {
+  const response = data;
+  useEffect(() => {}, [data]);
+
   return (
     <>
       <div className="navbar">

@@ -1,34 +1,97 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./index.scss";
 import { Icon } from "../Icon/Icon";
 import { IconTypes } from "../../models/Icon.model";
-import { colors } from "../../models/vars";
+import { Forecast } from "../../models/apiResponse.model";
+import { AppContext } from "../../context";
 
-export const TempCard = () => {
+interface Props {
+  data: Forecast | null;
+}
+
+export const TempCard = ({ data }: Props) => {
+  const context = useContext(AppContext);
+  const labels = {
+    city: "City",
+    region: "Region",
+    time: "Time",
+    date: "Date",
+    temperature: 22,
+    tempUnit: "Label",
+    precipitation: 0,
+    wind: 0.0,
+    icon: "cdn.weatherapi.com/weather/64x64/day/116.png",
+    alt: "Loading image",
+  };
+
+  const [Labels, setLabels] = useState(labels);
+
+  useEffect(() => {
+    if (data != null) {
+      const location = data!.location;
+      const current = data!.current;
+      const forecastday = data!.forecast.forecastday[context.day];
+      const hour = parseInt(location.localtime.split(" ")[1].substring(0, 2));
+
+      setLabels((Labels) => ({
+        ...Labels,
+        city: location.name,
+        region: location.region,
+        time: location.localtime.split(" ")[1],
+        date: forecastday.hour[hour].time.split(" ")[0],
+        temperature:
+          context.day == 0 ? current.temp_c : forecastday.hour[hour].temp_c,
+        tempUnit: "Cº",
+        precipitation: forecastday.hour[hour].chance_of_rain,
+        wind:
+          context.day == 0 ? current.wind_kph : forecastday.hour[hour].wind_kph,
+        icon: current.condition.icon,
+        alt: current.condition.text,
+      }));
+    }
+  }, [context.day, data]);
+
   return (
     <>
       <div className="tempCard">
-        <div className="tempCard__leftSection">
-          <h1 className="tempCard__title">City Name</h1>
-          <p className="tempCard__time_label">Time</p>
-          <p className="tempCard__date_label">Date</p>
-          <div className="tempCard__temp_section">
-            <p className="tempCard__temp_label">22</p>
-            <p className="tempCard__tempUnit_label">label</p>
-          </div>
-        </div>
-        <div className="tempCard__rightSection">
-          <div className="tempCard__subSection_container">
-            <div className="tempCard__subInfo">
-              <Icon className="tempCard__subIcon" iconTypes={IconTypes.drop} />
-              <p>Label</p>
-            </div>
-            <div className="tempCard__subInfo">
-              <Icon className="tempCard__subIcon" iconTypes={IconTypes.wind} />
-              <p>Label</p>
+        <p className="tempCard__title">
+          {Labels.city + ", " + Labels.region + "."}
+        </p>
+
+        <div className="tempCard__mainSection">
+          <div className="tempCard__leftSection">
+            <p className="tempCard__time_label">{Labels.date}</p>
+            <p className="tempCard__date_label">{Labels.time}</p>
+            <div className="tempCard__temp_section">
+              <p className="tempCard__temp_label">
+                {Labels.temperature.toFixed(1)}
+              </p>
+              <p className="tempCard__tempUnit_label">{Labels.tempUnit}</p>
             </div>
           </div>
-          <Icon iconTypes={IconTypes.sun} className={"tempCard__Icon"} />
+          <div className="tempCard__rightSection">
+            <div className="tempCard__subSection_container">
+              <div className="tempCard__subInfo">
+                <Icon
+                  className="tempCard__subIcon"
+                  iconTypes={IconTypes.drop}
+                />
+                <p>{Labels.precipitation.toString() + " %"}</p>
+              </div>
+              <div className="tempCard__subInfo">
+                <Icon
+                  className="tempCard__subIcon"
+                  iconTypes={IconTypes.wind}
+                />
+                <p>{Labels.wind.toString() + " kph"} </p>
+              </div>
+            </div>
+            <img
+              className="tempCard__Icon"
+              src={Labels.icon}
+              alt={Labels.alt}
+            />
+          </div>
         </div>
       </div>
     </>
