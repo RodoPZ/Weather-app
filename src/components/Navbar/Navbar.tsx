@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import "./index.scss";
 import { SearchBar } from "../SearchBar/SearchBar";
-import { api } from "../../utils/fetchFromApi";
-import { Forecast } from "../../models/apiResponse.model";
+import { AppContext } from "../../context";
 
-interface Props {
-  data: Forecast | null;
-}
+export const Navbar = () => {
+  const context = useContext(AppContext);
 
-export const Navbar = ({ data }: Props) => {
-  const response = data;
-  useEffect(() => {}, [data]);
+  const response = context.data;
 
   return (
     <>

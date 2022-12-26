@@ -2,14 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import "./index.scss";
 import { Icon } from "../Icon/Icon";
 import { IconTypes } from "../../models/Icon.model";
-import { Forecast } from "../../models/apiResponse.model";
 import { AppContext } from "../../context";
 
-interface Props {
-  data: Forecast | null;
-}
-
-export const TempCard = ({ data }: Props) => {
+export const TempCard = () => {
   const context = useContext(AppContext);
   const labels = {
     city: "City",
@@ -27,10 +22,11 @@ export const TempCard = ({ data }: Props) => {
   const [Labels, setLabels] = useState(labels);
 
   useEffect(() => {
-    if (data != null) {
-      const location = data!.location;
-      const current = data!.current;
-      const forecastday = data!.forecast.forecastday[context.day];
+    if (context.loaded) {
+      const response = context.data!;
+      const location = response.location;
+      const current = response.current;
+      const forecastday = response.forecast.forecastday[context.day];
       const hour = parseInt(location.localtime.split(" ")[1].substring(0, 2));
 
       setLabels((Labels) => ({
@@ -49,7 +45,7 @@ export const TempCard = ({ data }: Props) => {
         alt: current.condition.text,
       }));
     }
-  }, [context.day, data]);
+  }, [context.loaded, context.day]);
 
   return (
     <>

@@ -1,34 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Navbar } from "../Navbar/Navbar";
 import { DayMenu } from "../DayMenu/DayMenu";
 import { TempCard } from "../TempCard/TempCard";
 import { Footer } from "../Footer/Footer";
 import { TempGraphic } from "../TempGraphic/TempGraphic";
+import { AppContext } from "../../context";
 import { useParams } from "react-router-dom";
 import { api } from "../../utils/fetchFromApi";
-import { Forecast } from "../../models/apiResponse.model";
 
 export const Home = () => {
-  const [data, setData] = useState<null | Forecast>(null);
+  const context = useContext(AppContext);
   const { location } = useParams();
+
   useEffect(() => {
     const fetchData = async () => {
+      context.changeLoaded(false);
       const response = await api.forecast({ location: location!, days: 3 });
-      setData(response);
+      context.changeData(response);
+      context.changeLoaded(true);
     };
     fetchData();
-  }, []);
+  }, [location]);
 
   return (
     <>
       <header>
         <nav>
-          <Navbar data={data} />
+          <Navbar />
         </nav>
-        <DayMenu data={data} />
+        <DayMenu />
       </header>
       <main>
-        <TempCard data={data} />
+        <TempCard />
         <TempGraphic />
       </main>
       <footer>

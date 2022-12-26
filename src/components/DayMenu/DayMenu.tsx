@@ -1,21 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
 import { TextButton } from "../TextButton/TextButton";
-import { Forecast } from "../../models/apiResponse.model";
 import "./index.scss";
 import { AppContext } from "../../context";
 
-interface Props {
-  data: Forecast | null;
-}
-
-export const DayMenu = ({ data }: Props) => {
+export const DayMenu = () => {
   const context = useContext(AppContext);
   const dayListTemplate = ["Hoy", "Label", "Label"];
   const [days, setDays] = useState(dayListTemplate);
 
-  const response = data;
   useEffect(() => {
-    if (response != null) {
+    if (context.loaded) {
+      const response = context.data!;
       const list = response.forecast.forecastday;
       const dayList = list.map((item, index) => {
         const dateUTC = new Date(item.date);
@@ -28,7 +23,7 @@ export const DayMenu = ({ data }: Props) => {
       });
       setDays(dayList);
     }
-  }, [data]);
+  }, [context.loaded]);
 
   return (
     <>
