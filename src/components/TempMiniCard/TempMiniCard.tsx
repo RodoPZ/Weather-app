@@ -14,6 +14,8 @@ interface Props {
     max: number;
   };
   alt: string;
+  id: number;
+  selected: boolean;
 }
 
 export const TempMiniCard = ({
@@ -24,33 +26,35 @@ export const TempMiniCard = ({
   icon,
   tempLocation,
   alt,
+  id,
+  selected,
 }: Props) => {
   const context = useContext(AppContext);
-  const [paddingawa, setPadding] = useState({
-    paddingabajo: 0,
-    paddingarriba: 100,
-    paddingcss: {
-      container: {
-        padding: "",
-      } as React.CSSProperties,
-    },
+  const [tempPadding, setPadding] = useState({
+    paddingBottom: 0,
+    paddingTop: 100,
   });
 
   useEffect(() => {
     if (context.loaded) {
-      const paddingabajo = (temp * 100) / tempLocation.max;
-      const paddingarriba = 100 - paddingabajo;
+      const bottom =
+        (temp - tempLocation.min) *
+        (100 / (tempLocation.max - tempLocation.min));
+      const top = 100 - bottom;
 
-      setPadding((paddingawa) => ({
-        ...paddingawa,
-        paddingabajo: paddingabajo,
-        paddingarriba: paddingarriba,
+      setPadding((tempPadding) => ({
+        ...tempPadding,
+        paddingBottom: bottom,
+        paddingTop: top,
       }));
     }
   }, [context.loaded, temp]);
 
   return (
-    <div className="tempMiniCard">
+    <div
+      className={`tempMiniCard ${selected && "tempMiniCard--selected"}`}
+      id={"tempMiniCard" + id.toString()}
+    >
       <p className="tempMiniCard__timeLabel">
         <b>{time.substring(0, 2)}</b>
         {":" + time.substring(3, 5)}
@@ -58,7 +62,7 @@ export const TempMiniCard = ({
       <div
         className="tempMiniCard__temp"
         style={{
-          padding: `${paddingawa.paddingarriba}px 0px ${paddingawa.paddingabajo}px`,
+          padding: `${tempPadding.paddingTop}px 0px ${tempPadding.paddingBottom}px`,
         }}
       >
         <img src={icon} className={"tempMiniCard__sunIcon"} alt={alt} />

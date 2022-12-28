@@ -1,19 +1,30 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import "./index.scss";
 import { SearchBar } from "../SearchBar/SearchBar";
 import { AppContext } from "../../context";
-
+import { UnitParams } from "../../models/temperature.model";
 export const Navbar = () => {
   const context = useContext(AppContext);
-
-  const response = context.data;
-
+  const onClick = () => {
+    context.tempUnit == UnitParams.F
+      ? context.changeUnits(UnitParams.C)
+      : context.changeUnits(UnitParams.F);
+  };
   return (
     <>
       <div className="navbar">
-        <img className="navbar__logo" src="../../src/assets/Logo.png" alt="" />
+        <a href="/London">
+          <img
+            className="navbar__logo"
+            src="../../src/assets/Logo.png"
+            alt="navigate to default"
+          />
+        </a>
+
         <SearchBar />
-        <p className="navbar__label">EN/ES</p>
+        <p onClick={onClick} className="navbar__label">
+          {context.tempUnit}
+        </p>
       </div>
     </>
   );

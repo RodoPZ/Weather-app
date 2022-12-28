@@ -3,6 +3,7 @@ import "./index.scss";
 import { Icon } from "../Icon/Icon";
 import { IconTypes } from "../../models/Icon.model";
 import { AppContext } from "../../context";
+import { changeTempUnits } from "../../utils/changeTempUnits";
 
 export const TempCard = () => {
   const context = useContext(AppContext);
@@ -13,6 +14,7 @@ export const TempCard = () => {
     date: "Date",
     temperature: 22,
     tempUnit: "Label",
+    windUnit: "Label",
     precipitation: 0,
     wind: 0.0,
     icon: "cdn.weatherapi.com/weather/64x64/day/116.png",
@@ -35,17 +37,43 @@ export const TempCard = () => {
         region: location.region,
         time: location.localtime.split(" ")[1],
         date: forecastday.hour[hour].time.split(" ")[0],
-        temperature:
-          context.day == 0 ? current.temp_c : forecastday.hour[hour].temp_c,
-        tempUnit: "Cº",
+        temperature: changeTempUnits({
+          unit: context.tempUnit,
+          c_value: forecastday.hour[hour].temp_c,
+          f_value: forecastday.hour[hour].temp_f,
+          check_day: {
+            day: context.day,
+            current_c_value: current.temp_c,
+            current_f_value: current.temp_f,
+          },
+        }),
+
+        tempUnit: changeTempUnits({
+          unit: context.tempUnit,
+          c_value: "Cº",
+          f_value: "Fº",
+        }),
+        windUnit: changeTempUnits({
+          unit: context.tempUnit,
+          c_value: "kph",
+          f_value: "mph",
+        }),
         precipitation: forecastday.hour[hour].chance_of_rain,
-        wind:
-          context.day == 0 ? current.wind_kph : forecastday.hour[hour].wind_kph,
+        wind: changeTempUnits({
+          unit: context.tempUnit,
+          c_value: forecastday.hour[hour].wind_kph,
+          f_value: forecastday.hour[hour].wind_mph,
+          check_day: {
+            day: context.day,
+            current_c_value: current.wind_kph,
+            current_f_value: current.wind_mph,
+          },
+        }),
         icon: current.condition.icon,
         alt: current.condition.text,
       }));
     }
-  }, [context.loaded, context.day]);
+  }, [context.loaded, context.day, context.tempUnit]);
 
   return (
     <>
@@ -72,14 +100,18 @@ export const TempCard = () => {
                   className="tempCard__subIcon"
                   iconTypes={IconTypes.drop}
                 />
-                <p>{Labels.precipitation.toString() + " %"}</p>
+                <p className="tempCard__subIcon_label">
+                  {Labels.precipitation.toString() + " %"}
+                </p>
               </div>
               <div className="tempCard__subInfo">
                 <Icon
                   className="tempCard__subIcon"
                   iconTypes={IconTypes.wind}
                 />
-                <p>{Labels.wind.toString() + " kph"} </p>
+                <p className="tempCard__subIcon_label">
+                  {Labels.wind.toString() + " " + Labels.windUnit}
+                </p>
               </div>
             </div>
             <img

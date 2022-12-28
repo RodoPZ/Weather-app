@@ -1,13 +1,15 @@
 const APIKEY = import.meta.env.VITE_API;
 const Url = "https://api.weatherapi.com/v1/";
-import { Forecast } from "../models/apiResponse.model";
-
+import { Forecast } from "../models/Forecast.model";
+import { Search } from "../models/Search.model";
 import {
+  searchParametersTypes,
   astronomyParametersTypes,
   currentParametersTypes,
   forecastParametersTypes,
   timeframeTypes,
-} from "../models/apiResponse.model";
+} from "../models/apiParams.model";
+import { Error } from "../models/error.model";
 
 export class api {
   static async current({
@@ -30,14 +32,16 @@ export class api {
     const response = await fetch(
       `${Url}${timeframeTypes.forecast}?key=${APIKEY}&q=${location}&days=${days}&aqi=${airquality}&alerts=${alerts}`
     );
-    const data: Forecast = await response.json();
+    const data: Forecast & Error = await response.json();
     return data;
   }
 
-  static async search() {
-    return await fetch(
-      `${Url}${timeframeTypes.forecast}?key=${APIKEY}&q=${location}`
+  static async search({ location }: searchParametersTypes) {
+    const response = await fetch(
+      `${Url}${timeframeTypes.search}?key=${APIKEY}&q=${location}`
     );
+    const data: Search[] = await response.json();
+    return data;
   }
 
   static async astronomy({ date }: astronomyParametersTypes) {

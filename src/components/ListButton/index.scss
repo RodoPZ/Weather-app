@@ -1,0 +1,20 @@
+@use "../../styles/Variables.scss" as *;
+.listButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  background-color: $surface-3;
+  font-size: $p2;
+  border: 0px;
+  z-index: 50;
+  &__label {
+    color: $surface-2;
+  }
+  &:hover {
+    color: $surface-3;
+    background-color: $background-1;
+  }
+}

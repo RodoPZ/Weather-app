@@ -1,3 +1,5 @@
+@use "../../styles/Variables.scss" as *;
+
 .dayMenu {
   display: flex;
   flex-direction: row;
@@ -5,5 +7,19 @@
   margin: 0px;
   padding: 0px 8px;
   border-radius: 0px 0px 12px 12px;
-  background-color: var(--background-1);
+  background-color: $background-1;
 }
+
+@media (min-width: $breakpoint-tablet) {
+  .dayMenu {
+    margin: 0px auto;
+    width: $breakpoint-tablet;
+  }
+}
+
+// @media (min-width: $breakpoint-desktop) {
+//   .dayMenu {
+//     margin: 0px auto;
+//     width: $breakpoint-desktop;
+//   }
+// }

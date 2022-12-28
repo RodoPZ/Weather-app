@@ -1,19 +1,44 @@
+@use "../../styles/Variables.scss" as *;
 .navbar {
-  background-color: var(--navBackground);
+  background-color: $navBackground;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 20px;
+  padding: 0px 20px;
   gap: 13px;
   height: 56px;
   &__label {
-    font-size: var(--p3);
-    color: var(--surface-3);
+    font-size: $p3;
+    color: $surface-3;
+    text-decoration: underline;
     margin: 0;
+    &:hover {
+      cursor: pointer;
+      color: $surface-2;
+    }
   }
   &__logo {
     height: 32px;
     width: 40px;
   }
 }
+
+@media (min-width: $breakpoint-tablet) {
+  .navbar {
+    gap: 40px;
+    justify-content: unset;
+    justify-content: center;
+    &__label {
+      font-size: $p2;
+    }
+  }
+}
+
+// @media (min-width: $breakpoint-desktop) {
+//   .navbar {
+//     gap: 40px;
+//     justify-content: unset;
+//     justify-content: center;
+//   }
+// }

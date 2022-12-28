@@ -7,20 +7,28 @@ import "./index.scss";
 export const Footer = () => {
   return (
     <div className="footer">
-      <img className="logo" src="../../src/assets/Logo.png" alt="awa" />
+      <a href="/London">
+        <img className="logo" src="../../src/assets/Logo.png" alt="awa" />
+      </a>
+
       <div className="socials">
         <p className="socials__text">Made by RodoPZ</p>
         <div className="socials__imgLinkContainer">
-          <Icon
-            iconTypes={IconTypes.linkedin}
-            fill={colors.surface3}
-            className={"socials__iconLink"}
-          />
-          <Icon
-            iconTypes={IconTypes.github}
-            fill={colors.surface3}
-            className={"socials__iconLink"}
-          />
+          <a href="https://www.linkedin.com/in/rodopz/">
+            <Icon
+              iconTypes={IconTypes.linkedin}
+              fill={colors.surface3}
+              className={"socials__iconLink"}
+            />
+          </a>
+          <a href="https://github.com/RodoPZ">
+            <Icon
+              iconTypes={IconTypes.github}
+              fill={colors.surface3}
+              className={"socials__iconLink"}
+            />
+          </a>
+
           <Icon
             iconTypes={IconTypes.web}
             fill={colors.surface3}
@@ -28,7 +36,13 @@ export const Footer = () => {
           />
         </div>
       </div>
-      <p className="footer__apiLink">Weather API</p>
+      <a
+        href="https://www.weatherapi.com/"
+        title="Free Weather API"
+        className="footer__apiLink"
+      >
+        <p className="footer__apiLink_label">Weather API</p>
+      </a>
     </div>
   );
 };

@@ -1,36 +1,3 @@
-export enum timeframeTypes {
-  current = "current.json",
-  forecast = "forecast.json",
-  search = "search.json",
-  history = "history.json",
-  future = "future.json",
-  time_zone = "timezone.json",
-  astronomy = "astronomy.json",
-  ip = "ip.json",
-}
-
-export enum langTypes {
-  esp = "es",
-  en = "en",
-}
-
-type airqualityTypes = "yes" | "no";
-
-export interface currentParametersTypes {
-  location: string;
-  airquality?: airqualityTypes;
-}
-
-export interface forecastParametersTypes {
-  location: string;
-  days: number;
-  airquality?: airqualityTypes;
-  alerts?: "yes" | "no";
-}
-
-export interface astronomyParametersTypes {
-  date: string;
-}
 export interface Forecast {
   location: Location;
   current: Current;

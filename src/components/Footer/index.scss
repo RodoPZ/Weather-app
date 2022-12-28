@@ -1,3 +1,4 @@
+@use "../../styles/Variables.scss" as *;
 .footer {
   display: flex;
   flex-direction: row;
@@ -5,10 +6,16 @@
   align-items: center;
   padding: 12px 0px;
   gap: 24px;
-  background-color: var(--navBackground);
-  color: var(--surface-3);
+  background-color: $navBackground;
+  color: $surface-3;
   &__apiLink {
-    font-size: var(--p3);
+    text-decoration: none;
+    &:visited {
+      color: $surface-3;
+    }
+    &_label {
+      font-size: $p3;
+    }
   }
 }
 
@@ -24,7 +31,7 @@
   padding: 0px;
   gap: 4px;
   &__text {
-    font-size: var(--p3);
+    font-size: $p3;
   }
   &__imgLinkContainer {
     display: flex;
@@ -38,3 +45,39 @@
     height: 16px;
   }
 }
+
+@media (min-width: $breakpoint-tablet) {
+  .logo {
+    width: 57px;
+    height: 48px;
+  }
+
+  .socials {
+    &__iconLink {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .footer {
+    padding: 20px 0px;
+  }
+}
+
+// @media (min-width: $breakpoint-desktop) {
+//   .logo {
+//     width: 62px;
+//     height: 52px;
+//   }
+
+//   .socials {
+//     &__iconLink {
+//       width: 28px;
+//       height: 28px;
+//     }
+//   }
+
+//   .footer {
+//     padding: 20px 0px;
+//   }
+// }

@@ -1,15 +1,46 @@
-import React, { useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  MouseEvent,
+} from "react";
 import { Icon } from "../Icon/Icon";
 import { IconTypes } from "../../models/Icon.model";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
+import { api } from "../../utils/fetchFromApi";
+import { AutoComplete } from "../AutoComplete/AutoComplete";
+import { Search } from "../../models/Search.model";
+import { AppContext } from "../../context";
 
 export const SearchBar = () => {
-  const refContainer = useRef(null);
+  const context = useContext(AppContext);
+  const [results, setResults] = useState<Search[]>([]);
+
   let navigate = useNavigate();
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      navigate(`/${refContainer.current.value}`);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const target = e.target as HTMLInputElement;
+    if (e.key === "Enter") {
+      context.changeSearching(false);
+      navigate(`/${target.value}`);
+    } else if (e.key === "Escape") {
+      context.changeSearching(false);
+    }
+  };
+
+  const openAutocomplete = async (
+    e: React.ChangeEvent<HTMLInputElement> | MouseEvent<HTMLInputElement>
+  ) => {
+    const target = e.target as HTMLInputElement;
+    console.log(target.value.length, context.searching);
+    if (target.value.length >= 3) {
+      const response = await api.search({ location: target.value });
+      setResults(response);
+      if (context.searching != true) {
+        context.changeSearching(true);
+      }
     }
   };
 
@@ -17,13 +48,15 @@ export const SearchBar = () => {
     <>
       <div className="searchBar">
         <input
+          onClick={openAutocomplete}
+          onChange={openAutocomplete}
           onKeyDown={handleKeyDown}
-          ref={refContainer}
           className="searchBar__field"
           type="text"
           placeholder="Buscar..."
         />
         <Icon className="searchBar__icon" iconTypes={IconTypes.search} />
+        {context.searching && <AutoComplete results={results} />}
       </div>
     </>
   );
