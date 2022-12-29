@@ -3,6 +3,7 @@ import { Icon } from "../Icon/Icon";
 import { IconTypes } from "../../models/Icon.model";
 import { AppContext } from "../../context";
 import "./index.scss";
+import { changeTempUnits } from "../../utils/changeTempUnits";
 interface Props {
   time: string;
   temp: number;
@@ -48,7 +49,7 @@ export const TempMiniCard = ({
         paddingTop: top,
       }));
     }
-  }, [context.loaded, temp]);
+  }, [context.loaded, temp, context.tempUnit]);
 
   return (
     <div
@@ -81,7 +82,12 @@ export const TempMiniCard = ({
           iconTypes={IconTypes.wind}
         />
         <p className="tempMiniCard__rainWindLabel">
-          {wind.toFixed(1) + " kph"}
+          {wind.toFixed(1) +
+            changeTempUnits({
+              unit: context.tempUnit,
+              c_value: " kph",
+              f_value: " mph",
+            })}
         </p>
       </div>
     </div>

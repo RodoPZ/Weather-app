@@ -3,6 +3,8 @@ import "./index.scss";
 import { SearchBar } from "../SearchBar/SearchBar";
 import { AppContext } from "../../context";
 import { UnitParams } from "../../models/temperature.model";
+const imgUrl = new URL("assets/Logo.png", import.meta.url).href;
+
 export const Navbar = () => {
   const context = useContext(AppContext);
   const onClick = () => {
@@ -16,8 +18,8 @@ export const Navbar = () => {
         <a href="/London">
           <img
             className="navbar__logo"
-            src="../../src/assets/Logo.png"
-            alt="navigate to default"
+            src={imgUrl}
+            alt="navigate to homepage"
           />
         </a>
 

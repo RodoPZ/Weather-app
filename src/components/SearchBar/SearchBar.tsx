@@ -34,7 +34,6 @@ export const SearchBar = () => {
     e: React.ChangeEvent<HTMLInputElement> | MouseEvent<HTMLInputElement>
   ) => {
     const target = e.target as HTMLInputElement;
-    console.log(target.value.length, context.searching);
     if (target.value.length >= 3) {
       const response = await api.search({ location: target.value });
       setResults(response);

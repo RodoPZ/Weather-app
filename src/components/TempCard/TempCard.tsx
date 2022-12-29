@@ -7,7 +7,7 @@ import { changeTempUnits } from "../../utils/changeTempUnits";
 
 export const TempCard = () => {
   const context = useContext(AppContext);
-  const labels = {
+  const labelTemplate = {
     city: "City",
     region: "Region",
     time: "Time",
@@ -17,11 +17,11 @@ export const TempCard = () => {
     windUnit: "Label",
     precipitation: 0,
     wind: 0.0,
-    icon: "cdn.weatherapi.com/weather/64x64/day/116.png",
+    icon: "https://cdn.weatherapi.com/weather/64x64/day/116.png",
     alt: "Loading image",
   };
 
-  const [Labels, setLabels] = useState(labels);
+  const [labels, setLabels] = useState(labelTemplate);
 
   useEffect(() => {
     if (context.loaded) {
@@ -29,14 +29,17 @@ export const TempCard = () => {
       const location = response.location;
       const current = response.current;
       const forecastday = response.forecast.forecastday[context.day];
-      const hour = parseInt(location.localtime.split(" ")[1].substring(0, 2));
 
-      setLabels((Labels) => ({
-        ...Labels,
+      const hour = parseInt(location.localtime.split(" ")[1].substring(0, 2));
+      const newDate = new Date(forecastday.hour[hour].time);
+      const newDateList = newDate.toUTCString().split(" ");
+
+      setLabels((labels) => ({
+        ...labels,
         city: location.name,
         region: location.region,
         time: location.localtime.split(" ")[1],
-        date: forecastday.hour[hour].time.split(" ")[0],
+        date: `${newDateList[1]} ${newDateList[2]} ${newDateList[3]}`,
         temperature: changeTempUnits({
           unit: context.tempUnit,
           c_value: forecastday.hour[hour].temp_c,
@@ -79,18 +82,18 @@ export const TempCard = () => {
     <>
       <div className="tempCard">
         <p className="tempCard__title">
-          {Labels.city + ", " + Labels.region + "."}
+          {labels.city + ", " + labels.region + "."}
         </p>
 
         <div className="tempCard__mainSection">
           <div className="tempCard__leftSection">
-            <p className="tempCard__time_label">{Labels.date}</p>
-            <p className="tempCard__date_label">{Labels.time}</p>
+            <p className="tempCard__time_label">{labels.date}</p>
+            <p className="tempCard__date_label">{labels.time}</p>
             <div className="tempCard__temp_section">
               <p className="tempCard__temp_label">
-                {Labels.temperature.toFixed(1)}
+                {labels.temperature.toFixed(1)}
               </p>
-              <p className="tempCard__tempUnit_label">{Labels.tempUnit}</p>
+              <p className="tempCard__tempUnit_label">{labels.tempUnit}</p>
             </div>
           </div>
           <div className="tempCard__rightSection">
@@ -101,7 +104,7 @@ export const TempCard = () => {
                   iconTypes={IconTypes.drop}
                 />
                 <p className="tempCard__subIcon_label">
-                  {Labels.precipitation.toString() + " %"}
+                  {labels.precipitation.toString() + " %"}
                 </p>
               </div>
               <div className="tempCard__subInfo">
@@ -110,14 +113,14 @@ export const TempCard = () => {
                   iconTypes={IconTypes.wind}
                 />
                 <p className="tempCard__subIcon_label">
-                  {Labels.wind.toString() + " " + Labels.windUnit}
+                  {labels.wind.toString() + " " + labels.windUnit}
                 </p>
               </div>
             </div>
             <img
               className="tempCard__Icon"
-              src={Labels.icon}
-              alt={Labels.alt}
+              src={labels.icon}
+              alt={labels.alt}
             />
           </div>
         </div>

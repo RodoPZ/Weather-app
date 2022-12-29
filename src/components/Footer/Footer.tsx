@@ -3,12 +3,13 @@ import { Icon } from "../Icon/Icon";
 import { IconTypes } from "../../models/Icon.model";
 import { colors } from "../../models/vars";
 import "./index.scss";
+const imgUrl = new URL("assets/Logo.png", import.meta.url).href;
 
 export const Footer = () => {
   return (
     <div className="footer">
       <a href="/London">
-        <img className="logo" src="../../src/assets/Logo.png" alt="awa" />
+        <img className="logo" src={imgUrl} alt="nabigate to homepage " />
       </a>
 
       <div className="socials">
