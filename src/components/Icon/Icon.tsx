@@ -11,6 +11,7 @@ import { ReactComponent as RainIcon } from "assets/Rain.svg";
 import { ReactComponent as SunIcon } from "assets/Sun.svg";
 import { ReactComponent as WebIcon } from "assets/Web.svg";
 import { ReactComponent as WindIcon } from "assets/Wind.svg";
+import { ReactComponent as UpArrowIcon } from "assets/UpArrow.svg";
 
 export const Icon = ({ iconTypes, fill, className }: propTypes) => {
   switch (iconTypes) {
@@ -27,6 +28,10 @@ export const Icon = ({ iconTypes, fill, className }: propTypes) => {
     case IconTypes.linkedin:
       return (
         <LinkedinIcon fill={fill || colors.surface3} className={className} />
+      );
+    case IconTypes.upArrow:
+      return (
+        <UpArrowIcon fill={fill || colors.surface3} className={className} />
       );
     case IconTypes.moon:
       return <MoonIcon fill={fill} className={className} />;

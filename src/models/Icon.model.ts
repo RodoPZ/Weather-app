@@ -8,6 +8,7 @@ export enum IconTypes {
   wind,
   sun,
   moon,
+  upArrow,
 }
 export interface propTypes {
   iconTypes: IconTypes;

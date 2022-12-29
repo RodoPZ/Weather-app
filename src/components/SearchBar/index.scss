@@ -1,24 +1,56 @@
+@use "../../styles/Variables.scss" as *;
 .searchBar {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   border-radius: 4px;
   &__field {
-    background-color: var(--background-1);
+    background-color: $background-1;
     border-radius: 4px;
     border: 0px;
     width: 140px;
     padding: 0px 10px;
     height: 24px;
-    color: var(--surface-3);
+    color: $surface-3;
     &::placeholder {
-      color: var(--surface-3);
+      color: $surface-3;
     }
   }
   &__icon {
     position: absolute;
+    top: 4px;
     right: 10px;
     height: 16px;
     width: 16px;
   }
 }
+
+@media (min-width: $breakpoint-tablet) {
+  .searchBar {
+    &__field {
+      width: 511px;
+      height: 29px;
+      &::placeholder {
+        font-size: $p2;
+      }
+    }
+    &__icon {
+      top: 7px;
+    }
+  }
+}
+// @media (min-width: $breakpoint-desktop) {
+//   .searchBar {
+//     &__field {
+//       width: 1065px;
+//       height: 34px;
+//       &::placeholder {
+//         font-size: $p2;
+//       }
+//     }
+//     &__icon {
+//       top: 10px;
+//     }
+//   }
+// }

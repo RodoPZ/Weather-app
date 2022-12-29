@@ -1,0 +1,24 @@
+@use "../../styles/Variables.scss" as *;
+.locationNotFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  gap: 12px;
+  background-color: $background-1;
+  border-radius: 8px;
+  color: $surface-3;
+  margin: 20px auto;
+  width: min-content;
+  &__icon {
+    width: 40px;
+    height: 40px;
+  }
+  &__title {
+    font-size: $p1;
+    width: max-content;
+  }
+  &__subtitle {
+    font-size: $p2;
+  }
+}

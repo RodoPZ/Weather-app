@@ -1,0 +1,14 @@
+@use "../../styles/Variables.scss" as *;
+.autoComplete {
+  position: absolute;
+
+  top: 42px;
+  width: 100vw;
+  border: $surface-2 solid 2px;
+}
+
+@media (min-width: $breakpoint-tablet) {
+  .autoComplete {
+    width: calc($breakpoint-tablet - 200px);
+  }
+}

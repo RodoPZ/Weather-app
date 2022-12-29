@@ -1,15 +1,28 @@
+@use "../../styles/Variables.scss" as *;
 .tempCard {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 0px 8px;
   background: linear-gradient(90deg, #83c9f4 46.35%, #ffffff 100%);
   margin: 12px 20px;
   padding: 20px 8px;
   box-shadow: 5px 8px 10px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  color: var(--surface-2);
+  color: $surface-2;
+  &__title {
+    font-size: $p2;
+    font-weight: bold;
+  }
+  &__mainSection {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+  }
   &__leftSection {
     display: flex;
     flex-direction: column;
@@ -17,10 +30,10 @@
     padding: 0px;
   }
   &__time_label {
-    font-size: var(--p2);
+    font-size: $p2;
   }
   &__date_label {
-    font-size: var(--p3);
+    font-size: $p3;
   }
   &__temp_section {
     display: flex;
@@ -30,10 +43,10 @@
     gap: 4px;
   }
   &__temp_label {
-    font-size: 56px;
+    font-size: 48px;
   }
   &__tempUnit_label {
-    font-size: var(--p3);
+    font-size: $p3;
   }
 
   &__rightSection {
@@ -49,6 +62,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    width: 65px;
     padding: 0px;
     gap: 12px;
   }
@@ -71,3 +85,73 @@
     height: 64px;
   }
 }
+
+@media (min-width: $breakpoint-tablet) {
+  .tempCard {
+    padding: 40px 20px;
+    margin: 20px 30px;
+    &__time_label {
+      font-size: $p1;
+    }
+    &__date_label {
+      font-size: $p2;
+    }
+    &__temp_label {
+      font-size: 64px;
+    }
+    &__tempUnit_label {
+      font-size: $p1;
+    }
+    &__subIcon {
+      width: 28px;
+      height: 32px;
+    }
+    &__subIcon_label {
+      font-size: $p1;
+    }
+    &__subSection_container {
+      width: auto;
+    }
+    &__subInfo {
+      gap: 12px;
+    }
+    &__Icon {
+      width: 160px;
+      height: 160px;
+    }
+  }
+}
+
+// @media (min-width: $breakpoint-desktop) {
+//   .tempCard {
+//     &__time_label {
+//       font-size: $p0;
+//     }
+//     &__date_label {
+//       font-size: $p1;
+//     }
+//     &__temp_label {
+//       font-size: 64px;
+//     }
+//     &__tempUnit_label {
+//       font-size: $p0;
+//     }
+//     &__subIcon {
+//       width: 28px;
+//       height: 32px;
+//     }
+//     &__subIcon_label {
+//       font-size: $p1;
+//     }
+//     &__subSection_container {
+//       width: auto;
+//     }
+//     &__subInfo {
+//       gap: 12px;
+//     }
+//     &__Icon {
+//       width: 160px;
+//       height: 160px;
+//     }
+//   }
+// }

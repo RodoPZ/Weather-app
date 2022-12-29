@@ -1,16 +1,28 @@
+@use "../../styles/Variables.scss" as *;
 .textButton {
-  background-color: var(--background-1);
-  color: var(--surface-3);
+  background-color: $background-1;
+  color: $surface-3;
   display: flex;
   justify-content: center;
   padding: 10px;
   border: 0px;
 
   &__label {
-    font-size: var(--p3);
+    font-size: $p3;
   }
   &:hover {
-    border-bottom: 2px solid var(--surface-3);
-    padding-bottom: 8px;
+    border-bottom: 2px solid $surface-3;
+  }
+  &__selected {
+    border-bottom: 2px solid $surface-3;
+  }
+}
+
+@media (min-width: $breakpoint-tablet) {
+  .textButton {
+    &__label {
+      font-size: $p2;
+      font-weight: bold;
+    }
   }
 }

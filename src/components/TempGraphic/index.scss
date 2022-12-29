@@ -1,10 +1,44 @@
+@use "../../styles/Variables.scss" as *;
 .tempgraphic {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 0px;
   border-radius: 10px;
-  margin: 24px;
-  width: calc(100vw - 50px);
+  margin: 20px;
+  width: calc(100vw - 40px);
   overflow: scroll;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 }
+
+@media (min-width: $breakpoint-tablet) {
+  .tempgraphic {
+    width: calc($breakpoint-tablet - 60px);
+    margin: 30px 30px;
+  }
+}
+
+// @media (min-width: $breakpoint-desktop) {
+//   .tempgraphic {
+//     width: calc($breakpoint-desktop - 60px);
+//     margin: 30px 30px;
+//   }
+// }
