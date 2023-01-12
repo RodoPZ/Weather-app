@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import "./index.scss";
-import { AppContext } from "../../context";
+import { useDispatch } from "react-redux";
+import { changeDay } from "../../features/daySelector/daySelectorSlice";
 
 interface propTypes {
   children: string;
@@ -9,12 +10,11 @@ interface propTypes {
 }
 
 export const TextButton = ({ children, selected, index }: propTypes) => {
-  const context = useContext(AppContext);
-
+  const dispatch = useDispatch();
   return (
     <>
       <button
-        onClick={() => context.changeIndex(index)}
+        onClick={() => dispatch(changeDay(index))}
         type="button"
         className={`textButton ${selected ? "textButton__selected" : ""}`}
       >

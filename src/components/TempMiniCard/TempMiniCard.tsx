@@ -1,9 +1,12 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Icon } from "../Icon/Icon";
 import { IconTypes } from "../../models/Icon.model";
-import { AppContext } from "../../context";
 import "./index.scss";
 import { changeTempUnits } from "../../utils/changeTempUnits";
+import { useSelector, useDispatch } from "react-redux";
+import { changetoC, changetoF } from "../../features/tempUnits/tempUnitSlice";
+import { RootState } from "../../store";
+
 interface Props {
   time: string;
   temp: number;
@@ -30,14 +33,16 @@ export const TempMiniCard = ({
   id,
   selected,
 }: Props) => {
-  const context = useContext(AppContext);
+  const tempUnit = useSelector((state: RootState) => state.tempUnit.value);
+  const loaded = useSelector((state: RootState) => state.dataFromApi.loaded);
+  const dispatch = useDispatch();
   const [tempPadding, setPadding] = useState({
     paddingBottom: 0,
     paddingTop: 100,
   });
 
   useEffect(() => {
-    if (context.loaded) {
+    if (loaded) {
       const bottom =
         (temp - tempLocation.min) *
         (100 / (tempLocation.max - tempLocation.min));
@@ -49,7 +54,7 @@ export const TempMiniCard = ({
         paddingTop: top,
       }));
     }
-  }, [context.loaded, temp, context.tempUnit]);
+  }, [loaded, temp, tempUnit]);
 
   return (
     <div
@@ -84,7 +89,7 @@ export const TempMiniCard = ({
         <p className="tempMiniCard__rainWindLabel">
           {wind.toFixed(1) +
             changeTempUnits({
-              unit: context.tempUnit,
+              unit: tempUnit,
               c_value: " kph",
               f_value: " mph",
             })}

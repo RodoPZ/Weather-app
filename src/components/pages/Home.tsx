@@ -4,19 +4,21 @@ import { DayMenu } from "../DayMenu/DayMenu";
 import { TempCard } from "../TempCard/TempCard";
 import { Footer } from "../Footer/Footer";
 import { TempGraphic } from "../TempGraphic/TempGraphic";
-import { AppContext } from "../../context";
 import { useParams } from "react-router-dom";
 import { api } from "../../utils/fetchFromApi";
 import { LocationNotFound } from "../LocationNotFound/LocationNotFound";
+import { useDispatch, useSelector } from "react-redux";
+import { changeData } from "../../features/dataFromApi/dataFromApiSlice";
+import { RootState } from "../../store";
 
 export const Home = () => {
-  const context = useContext(AppContext);
+  const dispatch = useDispatch();
+  const loaded = useSelector((state: RootState) => state.dataFromApi.loaded);
   const { location } = useParams();
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      context.changeLoaded(false);
       const response = await api.forecast({
         location: location!,
         days: 3,
@@ -26,12 +28,11 @@ export const Home = () => {
           setError(true);
         }
       } else {
-        context.changeData(response);
-        context.changeLoaded(true);
+        dispatch(changeData(response));
       }
     };
     fetchData();
-  }, [location]);
+  }, [location, loaded]);
 
   return (
     <>

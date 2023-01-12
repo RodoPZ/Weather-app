@@ -1,7 +1,13 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../../context";
 import "./index.scss";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
+import {
+  activate,
+  deactivate,
+} from "../../features/searchMode/searchModeSlice";
+import { loadedToFalse } from "../../features/dataFromApi/dataFromApiSlice";
 
 interface propTypes {
   name: string;
@@ -11,10 +17,12 @@ interface propTypes {
 }
 
 export const ListButton = ({ name, region, country, url }: propTypes) => {
-  const context = useContext(AppContext);
+  const searchMode = useSelector((state: RootState) => state.searchMode.value);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const onClick = () => {
-    context.changeSearching(false);
+    dispatch(deactivate());
+    dispatch(loadedToFalse());
     navigate(`/${url}`);
   };
 
