@@ -3,14 +3,19 @@ import { Icon } from "../Icon/Icon";
 import { IconTypes } from "../../models/Icon.model";
 import { colors } from "../../models/vars";
 import "./index.scss";
+import { useNavigate } from "react-router-dom";
 const imgUrl = new URL("assets/Logo.png", import.meta.url).href;
 
 export const Footer = () => {
+  let navigate = useNavigate();
   return (
     <div className="footer">
-      <a href="/London">
-        <img className="logo" src={imgUrl} alt="nabigate to homepage " />
-      </a>
+      <img
+        onClick={() => navigate("/")}
+        className="logo"
+        src={imgUrl}
+        alt="nabigate to homepage "
+      />
 
       <div className="socials">
         <p className="socials__text">Made by RodoPZ</p>

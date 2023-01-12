@@ -1,22 +1,28 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { Search } from "../../models/Search.model";
 import { ListButton } from "../ListButton/ListButton";
-import { AppContext } from "../../context";
 import "./index.scss";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
+import {
+  activate,
+  deactivate,
+} from "../../features/searchMode/searchModeSlice";
 
 interface propParams {
   results: Search[];
 }
 
 export const AutoComplete = ({ results }: propParams) => {
-  const context = useContext(AppContext);
   const Element = useRef<HTMLInputElement>(null);
+  const searchMode = useSelector((state: RootState) => state.searchMode.value);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     function handler(event: Event) {
       const target = event.target as HTMLInputElement;
-      if (!Element.current?.contains(target) && context.searching == true) {
-        context.changeSearching(false);
+      if (!Element.current?.contains(target) && searchMode == true) {
+        dispatch(deactivate());
       }
     }
     window.addEventListener("click", handler);

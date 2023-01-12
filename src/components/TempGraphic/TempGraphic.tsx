@@ -1,12 +1,18 @@
 import React, { useEffect, useContext, useState } from "react";
 import { TempMiniCard } from "../TempMiniCard/TempMiniCard";
-import { AppContext } from "../../context";
 import { Hour } from "../../models/Forecast.model";
 import "./index.scss";
 import { changeTempUnits } from "../../utils/changeTempUnits";
+import { useSelector, useDispatch } from "react-redux";
+import { changetoC, changetoF } from "../../features/tempUnits/tempUnitSlice";
+import { RootState } from "../../store";
 
 export const TempGraphic = () => {
-  const context = useContext(AppContext);
+  const tempUnit = useSelector((state: RootState) => state.tempUnit.value);
+  const data = useSelector((state: RootState) => state.dataFromApi.value);
+  const loaded = useSelector((state: RootState) => state.dataFromApi.loaded);
+  const day = useSelector((state: RootState) => state.daySelector.value);
+  const dispatch = useDispatch();
   const [hourlist, setHourlist] = useState<Hour[]>([...Array(24)]);
   const [tempLocation, setTempLocation] = useState({ min: 0, max: 10 });
 
@@ -14,14 +20,14 @@ export const TempGraphic = () => {
   const currentHour = currentDate.getHours();
 
   useEffect(() => {
-    if (context.loaded) {
-      const response = context.data!;
-      const forecastByHour = response.forecast.forecastday[context.day].hour;
+    if (loaded) {
+      const response = data!;
+      const forecastByHour = response.forecast.forecastday[day].hour;
       setHourlist(forecastByHour);
 
       const listOfTemps = forecastByHour.map((hour) =>
         changeTempUnits({
-          unit: context.tempUnit,
+          unit: tempUnit,
           c_value: hour.temp_c,
           f_value: hour.temp_f,
         })
@@ -32,7 +38,7 @@ export const TempGraphic = () => {
         max: Math.max(...listOfTemps),
       }));
     }
-  }, [context.loaded, context.day, context.tempUnit]);
+  }, [loaded, day, tempUnit]);
 
   useEffect(() => {
     const card = document.getElementById(
@@ -58,7 +64,7 @@ export const TempGraphic = () => {
               temp={
                 hour
                   ? changeTempUnits({
-                      unit: context.tempUnit,
+                      unit: tempUnit,
                       c_value: hour.temp_c,
                       f_value: hour.temp_f,
                     })
@@ -68,7 +74,7 @@ export const TempGraphic = () => {
               wind={
                 hour
                   ? changeTempUnits({
-                      unit: context.tempUnit,
+                      unit: tempUnit,
                       c_value: hour.wind_kph,
                       f_value: hour.wind_mph,
                     })

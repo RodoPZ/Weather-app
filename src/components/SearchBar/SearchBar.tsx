@@ -1,32 +1,32 @@
-import React, {
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-  MouseEvent,
-} from "react";
+import React, { useContext, useState, MouseEvent } from "react";
 import { Icon } from "../Icon/Icon";
 import { IconTypes } from "../../models/Icon.model";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../utils/fetchFromApi";
 import { AutoComplete } from "../AutoComplete/AutoComplete";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
 import { Search } from "../../models/Search.model";
-import { AppContext } from "../../context";
+import {
+  activate,
+  deactivate,
+} from "../../features/searchMode/searchModeSlice";
 
 export const SearchBar = () => {
-  const context = useContext(AppContext);
+  const searchMode = useSelector((state: RootState) => state.searchMode.value);
   const [results, setResults] = useState<Search[]>([]);
+  const dispatch = useDispatch();
 
   let navigate = useNavigate();
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     const target = e.target as HTMLInputElement;
     if (e.key === "Enter") {
-      context.changeSearching(false);
+      dispatch(deactivate());
       navigate(`/${target.value}`);
     } else if (e.key === "Escape") {
-      context.changeSearching(false);
+      dispatch(deactivate());
     }
   };
 
@@ -37,8 +37,8 @@ export const SearchBar = () => {
     if (target.value.length >= 3) {
       const response = await api.search({ location: target.value });
       setResults(response);
-      if (context.searching != true) {
-        context.changeSearching(true);
+      if (searchMode == false) {
+        dispatch(activate());
       }
     }
   };
@@ -55,7 +55,7 @@ export const SearchBar = () => {
           placeholder="Buscar..."
         />
         <Icon className="searchBar__icon" iconTypes={IconTypes.search} />
-        {context.searching && <AutoComplete results={results} />}
+        {searchMode && <AutoComplete results={results} />}
       </div>
     </>
   );

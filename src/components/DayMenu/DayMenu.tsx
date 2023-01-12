@@ -1,16 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
 import { TextButton } from "../TextButton/TextButton";
 import "./index.scss";
-import { AppContext } from "../../context";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
 
 export const DayMenu = () => {
-  const context = useContext(AppContext);
+  const data = useSelector((state: RootState) => state.dataFromApi.value);
+  const loaded = useSelector((state: RootState) => state.dataFromApi.loaded);
+  const dayState = useSelector((state: RootState) => state.daySelector.value);
+  const dispatch = useDispatch();
+
   const dayListTemplate = ["Hoy", "Label", "Label"];
   const [days, setDays] = useState(dayListTemplate);
 
   useEffect(() => {
-    if (context.loaded) {
-      const response = context.data!;
+    if (loaded) {
+      const response = data!;
       const list = response.forecast.forecastday;
       const dayList = list.map((item, index) => {
         const dateUTC = new Date(item.date);
@@ -23,7 +28,7 @@ export const DayMenu = () => {
       });
       setDays(dayList);
     }
-  }, [context.loaded]);
+  }, [loaded]);
 
   return (
     <>
@@ -31,7 +36,7 @@ export const DayMenu = () => {
         {days.map((day, index) => (
           <TextButton
             index={index}
-            selected={index == context.day ? true : false}
+            selected={index == dayState ? true : false}
             key={index}
           >
             {day}

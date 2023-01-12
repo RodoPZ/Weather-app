@@ -1,31 +1,33 @@
 import React, { useContext } from "react";
 import "./index.scss";
 import { SearchBar } from "../SearchBar/SearchBar";
-import { AppContext } from "../../context";
 import { UnitParams } from "../../models/temperature.model";
+import { useSelector, useDispatch } from "react-redux";
+import { changetoC, changetoF } from "../../features/tempUnits/tempUnitSlice";
+import { RootState } from "../../store";
+import { useNavigate } from "react-router-dom";
 const imgUrl = new URL("assets/Logo.png", import.meta.url).href;
 
 export const Navbar = () => {
-  const context = useContext(AppContext);
+  const tempUnit = useSelector((state: RootState) => state.tempUnit.value);
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+
   const onClick = () => {
-    context.tempUnit == UnitParams.F
-      ? context.changeUnits(UnitParams.C)
-      : context.changeUnits(UnitParams.F);
+    tempUnit == UnitParams.F ? dispatch(changetoC()) : dispatch(changetoF());
   };
   return (
     <>
       <div className="navbar">
-        <a href="/London">
-          <img
-            className="navbar__logo"
-            src={imgUrl}
-            alt="navigate to homepage"
-          />
-        </a>
-
+        <img
+          onClick={() => navigate("/")}
+          className="navbar__logo"
+          src={imgUrl}
+          alt="navigate to homepage"
+        />
         <SearchBar />
         <p onClick={onClick} className="navbar__label">
-          {context.tempUnit}
+          {tempUnit}
         </p>
       </div>
     </>
