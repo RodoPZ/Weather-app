@@ -5,7 +5,6 @@ import path from "path";
 // https://vitej  s.dev/config/
 
 export default defineConfig({
-  base: "/Weather-app/",
   resolve: {
     alias: {
       assets: path.resolve(__dirname, "./src/assets"),
