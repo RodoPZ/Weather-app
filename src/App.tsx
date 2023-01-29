@@ -10,7 +10,7 @@ function App() {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <BrowserRouter basename="/Weather-app/">
+    <BrowserRouter>
       <Provider store={store}>
         <Routes>
           <Route path="/" element={<Navigate to="London" />} />
