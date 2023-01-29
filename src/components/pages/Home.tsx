@@ -16,23 +16,26 @@ export const Home = () => {
   const loaded = useSelector((state: RootState) => state.dataFromApi.loaded);
   const { location } = useParams();
   const [error, setError] = useState(false);
-
+  let initialized = false;
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.forecast({
-        location: location!,
-        days: 3,
-      });
-      if (response.error != null) {
-        if (response.error.code === 1006) {
-          setError(true);
+    if (!initialized) {
+      initialized = true;
+      const fetchData = async () => {
+        const response = await api.forecast({
+          location: location!,
+          days: 3,
+        });
+        if (response.error != null) {
+          if (response.error.code === 1006) {
+            setError(true);
+          }
+        } else {
+          dispatch(changeData(response));
         }
-      } else {
-        dispatch(changeData(response));
-      }
-    };
-    fetchData();
-  }, [location, loaded]);
+      };
+      fetchData();
+    }
+  }, [location]);
 
   return (
     <>
